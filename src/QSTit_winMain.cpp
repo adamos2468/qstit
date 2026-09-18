@@ -107,8 +107,8 @@ winMain::winMain()
 
 void winMain::fApplInit()
 {
-    objWind.widt=QApplication::desktop()->width();
-    objWind.heig=QApplication::desktop()->height();
+    objWind.widt=qstit::deskGeom().width();
+    objWind.heig=qstit::deskGeom().height();
     objWind.midW=objWind.widt/2;
     objWind.midH=objWind.heig/2;
     objWind.basW=objWind.widt-2;
@@ -248,8 +248,8 @@ void winMain::fWindBack() {winWind->setStyleSheet("background-color:"+gWindBack+
 void winMain::fWindClear() {winWind->setStyleSheet("background-color:#000000;color:#ffffff;border:none;");}
 void winMain::fWindTask()
 {
-    objWind.heig=QApplication::desktop()->height();
-    if(radTaskShow->isChecked()) {objWind.heig=QApplication::desktop()->availableGeometry().height();}
+    objWind.heig=qstit::deskGeom().height();
+    if(radTaskShow->isChecked()) {objWind.heig=qstit::deskAvai().height();}
     this->setFixedSize(objWind.widt,objWind.heig);
     winWind->setGeometry(0,0,objWind.widt,objWind.heig);
     fraMenu->iY=objWind.heig-fraMenu->iH-1;
@@ -539,7 +539,7 @@ void winMain::fRowsCrea()
 {
     gRowsFont.setFamily(qApp->font().family());
     gRowsFont.setPointSize(22);
-    gRowsFont.setWeight(50);
+    qstit::fontWeigSet(gRowsFont,QFont::Normal);
     gRowsFont.setItalic(false);
     gRowsBack="#000000";
     gRowsColo="#ffffff";
@@ -548,7 +548,7 @@ void winMain::fRowsCrea()
     objRow0.show=true;
     objRow0.font.setFamily(qApp->font().family());
     objRow0.font.setPointSize(22);
-    objRow0.font.setWeight(50);
+    qstit::fontWeigSet(objRow0.font,QFont::Normal);
     objRow0.font.setItalic(false);
     objRow0.colB=QColor(gRowsBack);
     objRow0.colF=QColor(gRowsColo);
@@ -1315,9 +1315,9 @@ void winMain::fRowsWidtCalc()
     {
         sT=fGridTextClean(griText->item(gFileMaxiRows[iM],gFileMaxiColo[iM])->text());
         #ifdef Q_OS_MAC
-        gFileMaxiLeng[iM]=mRows.width(sT)*1.05;
+        gFileMaxiLeng[iM]=qstit::textWidt(mRows,sT)*1.05;
         #else
-        gFileMaxiLeng[iM]=mRows.width(sT)/1.1;
+        gFileMaxiLeng[iM]=qstit::textWidt(mRows,sT)/1.1;
         #endif
     }
     iW=gFileMaxiLeng[0];
@@ -1550,18 +1550,18 @@ void winMain::fGridInitCols()
 
     for (c=0; c<7; c++) {griText->setColumnWidth(c,0);}
     griText->setColumnWidth(0,20);
-    griText->horizontalHeader()->setResizeMode(0,QHeaderView::Fixed);
+    griText->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Fixed);
     if (gSrtx)
     {
         QFontMetrics mGrid=QFontMetrics(gGridFont);
-        cw=mGrid.width("99:99:99,999")+9;
+        cw=qstit::textWidt(mGrid,"99:99:99,999")+9;
         griText->setColumnWidth(1,cw);
         griText->setColumnWidth(2,cw);
         cwTot+=cw*2;
         cwMax=(objWind.widt-2-cwTot)/objRowsNumb.valu;
     }
-    griText->horizontalHeader()->setResizeMode(1,QHeaderView::Fixed);
-    griText->horizontalHeader()->setResizeMode(2,QHeaderView::Fixed);
+    griText->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Fixed);
+    griText->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Fixed);
     for (c=3; c<7; c++)
     {
         cw=gFileMaxiColu[c-3];
@@ -1849,7 +1849,7 @@ void winMain::fGridFontSize()
             {
                 wi=griText->item(iR,iC);
                 wi->setFont(gGridFont);
-                fFileTextMaxi(mGrid.width(wi->text()),mRows.width(wi->text()),wi->text().length(),iR,iR,iC);
+                fFileTextMaxi(qstit::textWidt(mGrid,wi->text()),qstit::textWidt(mRows,wi->text()),wi->text().length(),iR,iR,iC);
             }
         }
         fGridInitCols();
@@ -2798,8 +2798,8 @@ void winMain::fFileRead()
     QFontMetrics mRows=QFontMetrics(gRowsFont);
 
     QTextStream oStrm(&oFile);
-    if (gFileEnco) oStrm.setCodec("ISO-8859-1");
-    else oStrm.setCodec("UTF-8");
+    if (gFileEnco) qstit::strmEncoLati(oStrm);
+    else qstit::strmEncoUtf8(oStrm);
 
     while (!oStrm.atEnd() && !bStop)
     {
@@ -2825,7 +2825,7 @@ void winMain::fFileRead()
                 sLine=fFileLineForm(lText[iT]);
                 fGridItemSetx(sLine,iGrid,iC);
                 sGrid=sLine;sLine=fGridTextClean(lText[iT]);
-                bStop=fFileTextMaxi(mGrid.width(sGrid),mRows.width(sLine),sLine.length(),iGrid,iLine,iC);
+                bStop=fFileTextMaxi(qstit::textWidt(mGrid,sGrid),qstit::textWidt(mRows,sLine),sLine.length(),iGrid,iLine,iC);
                 if (bStop) break;
             }
             else
@@ -3015,7 +3015,7 @@ void winMain::fFileWrit(QString sFile)
             if (!st4.isEmpty()) sLine=sLine+"\\"+st4;
         }
         sLine=sLine+"\n";
-        oFile.write(sLine.toAscii());
+        oFile.write(sLine.toUtf8());
     }
     oFile.close();
 }
@@ -3051,7 +3051,7 @@ void winMain::fFileWritSrtx(QString sFile)
         if (!sTex1.isEmpty()) sLine+=(sTex1+"\n");
         if (!sTex2.isEmpty()) sLine+=(sTex2+"\n");
         sLine+="\n";
-        oFile.write(sLine.toAscii());
+        oFile.write(sLine.toUtf8());
     }
     oFile.close();
 }
@@ -3069,7 +3069,7 @@ void winMain::fFileLogx()
         {
             sLine=QString("[Error] Row %1\n").arg(lProb[iP]);
             if (!fFlogOpen()) return;
-            oFlog.write(sLine.toAscii());
+            oFlog.write(sLine.toUtf8());
         }
     }
 
@@ -3080,7 +3080,7 @@ void winMain::fFileLogx()
             sLine=QString("[Flag] Row %1 Col 1 : ").arg(griText->verticalHeaderItem(iR)->text().toInt());
             sLine+=QString("Text ["+griText->item(iR,3)->text()+"...]\n");
             if (!fFlogOpen()) return;
-            oFlog.write(sLine.toAscii());
+            oFlog.write(sLine.toUtf8());
         }
         if (griText->item(iR,0)->text()=="E")
         {
@@ -3095,7 +3095,7 @@ void winMain::fFileLogx()
                     sLine+=QString("["+gEditTextOldx[jR]+"]");
                     sLine+=QString("? ["+gEditTextNewx[jR]+"]\n");
                     if (!fFlogOpen()) return;
-                    oFlog.write(sLine.toAscii());
+                    oFlog.write(sLine.toUtf8());
                 }
             }
         }
@@ -3154,8 +3154,8 @@ void winMain::fFileReadSrtx()
     QFontMetrics mRows=QFontMetrics(gRowsFont);
 
     QTextStream oStrm(&oFile);
-    if (gFileEnco) oStrm.setCodec("ISO-8859-1");
-    else oStrm.setCodec("UTF-8");
+    if (gFileEnco) qstit::strmEncoLati(oStrm);
+    else qstit::strmEncoUtf8(oStrm);
 
     while (!oStrm.atEnd() && !bStop)
     {
@@ -3177,13 +3177,13 @@ void winMain::fFileReadSrtx()
             sGri3=sTex3;sTex3=fGridTextClean(sTex3);
             sGri4=sTex4;sTex4=fGridTextClean(sTex4);
 
-            bStop=fFileTextMaxi(mGrid.width(sGri1),mRows.width(sTex1),sTex1.length(),iGrid,iLine,3);
+            bStop=fFileTextMaxi(qstit::textWidt(mGrid,sGri1),qstit::textWidt(mRows,sTex1),sTex1.length(),iGrid,iLine,3);
             if (bStop) break;
-            bStop=fFileTextMaxi(mGrid.width(sGri2),mRows.width(sTex2),sTex2.length(),iGrid,iLine,4);
+            bStop=fFileTextMaxi(qstit::textWidt(mGrid,sGri2),qstit::textWidt(mRows,sTex2),sTex2.length(),iGrid,iLine,4);
             if (bStop) break;
-            bStop=fFileTextMaxi(mGrid.width(sGri3),mRows.width(sTex3),sTex3.length(),iGrid,iLine,5);
+            bStop=fFileTextMaxi(qstit::textWidt(mGrid,sGri3),qstit::textWidt(mRows,sTex3),sTex3.length(),iGrid,iLine,5);
             if (bStop) break;
-            bStop=fFileTextMaxi(mGrid.width(sGri4),mRows.width(sTex4),sTex4.length(),iGrid,iLine,6);
+            bStop=fFileTextMaxi(qstit::textWidt(mGrid,sGri4),qstit::textWidt(mRows,sTex4),sTex4.length(),iGrid,iLine,6);
             if (bStop) break;
 
             sNumb=sStar=sStop=sTex1=sTex2=sTex3=sTex4="";
@@ -3280,10 +3280,10 @@ void winMain::fFileReadSrtx()
         sTex3=fGridTextClean(sTex3);
         sTex4=fGridTextClean(sTex4);
 
-        bStop=fFileTextMaxi(mGrid.width(sTex1),mRows.width(sTex1),sTex1.length(),iGrid,iLine,3);if (bStop) return;
-        bStop=fFileTextMaxi(mGrid.width(sTex2),mRows.width(sTex2),sTex2.length(),iGrid,iLine,4);if (bStop) return;
-        bStop=fFileTextMaxi(mGrid.width(sTex3),mRows.width(sTex3),sTex3.length(),iGrid,iLine,5);if (bStop) return;
-        bStop=fFileTextMaxi(mGrid.width(sTex4),mRows.width(sTex4),sTex4.length(),iGrid,iLine,6);if (bStop) return;
+        bStop=fFileTextMaxi(qstit::textWidt(mGrid,sTex1),qstit::textWidt(mRows,sTex1),sTex1.length(),iGrid,iLine,3);if (bStop) return;
+        bStop=fFileTextMaxi(qstit::textWidt(mGrid,sTex2),qstit::textWidt(mRows,sTex2),sTex2.length(),iGrid,iLine,4);if (bStop) return;
+        bStop=fFileTextMaxi(qstit::textWidt(mGrid,sTex3),qstit::textWidt(mRows,sTex3),sTex3.length(),iGrid,iLine,5);if (bStop) return;
+        bStop=fFileTextMaxi(qstit::textWidt(mGrid,sTex4),qstit::textWidt(mRows,sTex4),sTex4.length(),iGrid,iLine,6);if (bStop) return;
 
         gSrtxStop=sStop;
     }
@@ -3662,9 +3662,7 @@ QString winMain::fHelpFileRead()
     QByteArray sHelp=oHelp.readAll();
     oHelp.close();
 
-    QTextCodec *codec;
-    codec=QTextCodec::codecForName("UTF-8");
-    return codec->toUnicode(sHelp);
+    return QString::fromUtf8(sHelp);
 }
 
 //=================================================================================================
@@ -4080,7 +4078,7 @@ void winMain::fConfConf(QString pVari,QString pValu)
     if (pVari=="Row0Widt")      {if (iV<objRowsWidt.mini || iV>objRowsWidt.maxi) iV=objRowsWidt.val0;objRow0.widt=iV;return;}
     if (pVari=="Row0FontName")  {if (sV=="?") sV=gSystFontFami;objRow0.font.setFamily(sV);return;}
     if (pVari=="Row0FontSize")  {objRow0.font.setPointSize(iV);return;}
-    if (pVari=="Row0FontWeig")  {objRow0.font.setWeight(iV);return;}
+    if (pVari=="Row0FontWeig")  {qstit::fontWeigSet(objRow0.font,iV);return;}
     if (pVari=="Row0FontItal")  {objRow0.font.setItalic(bV);return;}
     if (pVari=="Row0TextColo")  {if (sV.length()!=7 || !sV.startsWith("#")) sV=gRowsColo;objRow0.colF=QColor(sV);return;}
     if (pVari=="Row0BackColo")  {if (sV.length()!=7 || !sV.startsWith("#")) sV=gRowsBack;objRow0.colB=QColor(sV);return;}
@@ -4098,7 +4096,7 @@ void winMain::fConfConf(QString pVari,QString pValu)
     if (pVari=="Row1Widt")      {if (iV<objRowsWidt.mini || iV>objRowsWidt.maxi) iV=objRowsWidt.val0;objRow1.widt=iV;return;}
     if (pVari=="Row1FontName")  {if (sV=="?") sV=gSystFontFami;objRow1.font.setFamily(sV);return;}
     if (pVari=="Row1FontSize")  {objRow1.font.setPointSize(iV);return;}
-    if (pVari=="Row1FontWeig")  {objRow1.font.setWeight(iV);return;}
+    if (pVari=="Row1FontWeig")  {qstit::fontWeigSet(objRow1.font,iV);return;}
     if (pVari=="Row1FontItal")  {objRow1.font.setItalic(bV);return;}
     if (pVari=="Row1TextColo")  {if (sV.length()!=7 || !sV.startsWith("#")) sV=gRowsColo;objRow1.colF=QColor(sV);return;}
     if (pVari=="Row1BackColo")  {if (sV.length()!=7 || !sV.startsWith("#")) sV=gRowsBack;objRow1.colB=QColor(sV);return;}
@@ -4116,7 +4114,7 @@ void winMain::fConfConf(QString pVari,QString pValu)
     if (pVari=="Row2Widt")      {if (iV<objRowsWidt.mini || iV>objRowsWidt.maxi) iV=objRowsWidt.val0;objRow2.widt=iV;return;}
     if (pVari=="Row2FontName")  {if (sV=="?") sV=gSystFontFami;objRow2.font.setFamily(sV);return;}
     if (pVari=="Row2FontSize")  {objRow2.font.setPointSize(iV);return;}
-    if (pVari=="Row2FontWeig")  {objRow2.font.setWeight(iV);return;}
+    if (pVari=="Row2FontWeig")  {qstit::fontWeigSet(objRow2.font,iV);return;}
     if (pVari=="Row2FontItal")  {objRow2.font.setItalic(bV);return;}
     if (pVari=="Row2TextColo")  {if (sV.length()!=7 || !sV.startsWith("#")) sV=gRowsColo;objRow2.colF=QColor(sV);return;}
     if (pVari=="Row2BackColo")  {if (sV.length()!=7 || !sV.startsWith("#")) sV=gRowsBack;objRow2.colB=QColor(sV);return;}
@@ -4134,7 +4132,7 @@ void winMain::fConfConf(QString pVari,QString pValu)
     if (pVari=="Row3Widt")      {if (iV<objRowsWidt.mini || iV>objRowsWidt.maxi) iV=objRowsWidt.val0;objRow3.widt=iV;return;}
     if (pVari=="Row3FontName")  {if (sV=="?") sV=gSystFontFami;objRow3.font.setFamily(sV);return;}
     if (pVari=="Row3FontSize")  {objRow3.font.setPointSize(iV);return;}
-    if (pVari=="Row3FontWeig")  {objRow3.font.setWeight(iV);return;}
+    if (pVari=="Row3FontWeig")  {qstit::fontWeigSet(objRow3.font,iV);return;}
     if (pVari=="Row3FontItal")  {objRow3.font.setItalic(bV);return;}
     if (pVari=="Row3TextColo")  {if (sV.length()!=7 || !sV.startsWith("#")) sV=gRowsColo;objRow3.colF=QColor(sV);return;}
     if (pVari=="Row3BackColo")  {if (sV.length()!=7 || !sV.startsWith("#")) sV=gRowsBack;objRow3.colB=QColor(sV);return;}
@@ -4151,7 +4149,7 @@ void winMain::fConfConf(QString pVari,QString pValu)
     if (pVari=="Row4Widt")      {if (iV<objRowsWidt.mini || iV>objRowsWidt.maxi) iV=objRowsWidt.val0;objRow4.widt=iV;return;}
     if (pVari=="Row4FontName")  {if (sV=="?") sV=gSystFontFami;objRow4.font.setFamily(sV);return;}
     if (pVari=="Row4FontSize")  {objRow4.font.setPointSize(iV);return;}
-    if (pVari=="Row4FontWeig")  {objRow4.font.setWeight(iV);return;}
+    if (pVari=="Row4FontWeig")  {qstit::fontWeigSet(objRow4.font,iV);return;}
     if (pVari=="Row4FontItal")  {objRow4.font.setItalic(bV);return;}
     if (pVari=="Row4TextColo")  {if (sV.length()!=7 || !sV.startsWith("#")) sV=gRowsColo;objRow4.colF=QColor(sV);return;}
     if (pVari=="Row4BackColo")  {if (sV.length()!=7 || !sV.startsWith("#")) sV=gRowsBack;objRow4.colB=QColor(sV);return;}
@@ -4529,7 +4527,7 @@ void winMain::fAutoClok()
 {
     static int iJumpShow=0;
     double dJump=gJumpBase;
-    int iBeat=timSystPuls.restart()+gAcce;
+    int iBeat=static_cast<int>(timSystPuls.restart())+gAcce;
 
     timAuto=timAuto.addMSecs(iBeat+gJump);
     labTime->setText(timAuto.toString("hh:mm:ss"));

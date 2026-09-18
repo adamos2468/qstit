@@ -29,9 +29,9 @@ diaGridSkin::diaGridSkin(QWidget *parent,menuSkin *menu,QString pTitl,int pWidt,
 {
     parWin=parent;
     parMen=menu;
-    iPr=QApplication::desktop()->width()-1;
-    iPb=QApplication::desktop()->height()-1;
-    iPm=QApplication::desktop()->height()/2;
+    iPr=qstit::deskGeom().width()-1;
+    iPb=qstit::deskGeom().height()-1;
+    iPm=qstit::deskGeom().height()/2;
     sPf=qApp->font().family();
     bLink=true;
     iW=pWidt;
@@ -55,25 +55,25 @@ diaGridSkin::diaGridSkin(QWidget *parent,menuSkin *menu,QString pTitl,int pWidt,
     fraSizT=new QFrame(this);
     fraSizT->setGeometry(0,0,iW,5);
     fraSizT->raise();
-    fraSizT->setCursor(QPixmap(":/Imag/QSTit_size_vert.png"));
+    fraSizT->setCursor(QCursor(QPixmap(":/Imag/QSTit_size_vert.png")));
     fraSizT->setFrameShape(QFrame::NoFrame);
     fraSizT->setStyleSheet(sStylBord);
     fraSizL=new QFrame(this);
     fraSizL->setGeometry(0,0,5,iH);
     fraSizL->raise();
-    fraSizL->setCursor(QPixmap(":/Imag/QSTit_size.png"));
+    fraSizL->setCursor(QCursor(QPixmap(":/Imag/QSTit_size.png")));
     fraSizL->setFrameShape(QFrame::NoFrame);
     fraSizL->setStyleSheet(sStylBord);
     fraSizR=new QFrame(this);
     fraSizR->setGeometry(iW-5,0,5,iH);
-    fraSizR->setCursor(QPixmap(":/Imag/QSTit_size.png"));
+    fraSizR->setCursor(QCursor(QPixmap(":/Imag/QSTit_size.png")));
     fraSizR->setFrameShape(QFrame::NoFrame);
     fraSizR->setWindowOpacity(0);
     fraSizR->setStyleSheet(sStylBord);
     fraSizB=new QFrame(this);
     fraSizB->setGeometry(0,iH-5,iW,5);
     fraSizB->raise();
-    fraSizB->setCursor(QPixmap(":/Imag/QSTit_size_vert.png"));
+    fraSizB->setCursor(QCursor(QPixmap(":/Imag/QSTit_size_vert.png")));
     fraSizB->setFrameShape(QFrame::NoFrame);
     fraSizB->setStyleSheet(sStylBord);
 }

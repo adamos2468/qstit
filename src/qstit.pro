@@ -4,6 +4,9 @@
 
 TARGET = qstit
 
+# Qt5/Qt6: QtWidgets is no longer part of QtGui
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 MOC_DIR = ./tmp
 OBJECTS_DIR = ./tmp
 

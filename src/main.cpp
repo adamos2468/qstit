@@ -22,14 +22,25 @@
 */
 
 #include <QApplication>
-#include <QCleanlooksStyle>
+#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
+    #include <QCleanlooksStyle>
+    #include <QTextCodec>
+#else
+    #include <QStyleFactory>
+#endif
 #include "QSTit_winMain.h"
 
 int main(int argc,char *argv[])
 {
     QApplication app(argc, argv);
+#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
+    // Cleanlooks was dropped in Qt5; "Fusion" is its successor.
     QApplication::setStyle(new QCleanlooksStyle);
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+#else
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+    // Qt5+ already treats C string literals as UTF-8.
+#endif
 
     winMain wMain;
     wMain.show();

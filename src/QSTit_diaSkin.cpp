@@ -25,12 +25,12 @@
 
 int fCalcPosX(int iWidt)
 {
-    int iPr=QApplication::desktop()->width();
+    int iPr=qstit::deskGeom().width();
     return (iPr-iWidt)/2;
 }
 int fCalcPosY(int iHeig,QFrame *parMen)
 {
-    int iPm=QApplication::desktop()->height()/2;
+    int iPm=qstit::deskGeom().height()/2;
     if(parMen->frameGeometry().y()>iPm) {return parMen->frameGeometry().y()-iHeig;}
     else {return parMen->frameGeometry().bottom()+1;}
 }
@@ -62,9 +62,9 @@ rowSkin::rowSkin(QWidget *parent,int pWidt,int pHeig) : QFrame(parent)
     iX=1;
     iY=1;
 
-    iPr=QApplication::desktop()->width()-1;
-    iPb=QApplication::desktop()->height()-1;
-    iPm=QApplication::desktop()->height()/2;
+    iPr=qstit::deskGeom().width()-1;
+    iPb=qstit::deskGeom().height()-1;
+    iPm=qstit::deskGeom().height()/2;
 
     this->setStyleSheet("border:none;border-radius:0px;");
     //this->setFrameShape(QFrame::NoFrame);
@@ -163,9 +163,9 @@ diaSkin::diaSkin(QWidget *parent,QFrame *menu,QString pTitl,int pWidt,int pHeig,
     int iLefx=pLefx;
     int iTopy=pTopy;
 
-    iPr=QApplication::desktop()->width()-1;
-    iPb=QApplication::desktop()->height()-1;
-    iPm=QApplication::desktop()->height()/2;
+    iPr=qstit::deskGeom().width()-1;
+    iPb=qstit::deskGeom().height()-1;
+    iPm=qstit::deskGeom().height()/2;
 
     if (iLefx==-1) iLefx=fCalcPosX(pWidt);
     if (iTopy==-1) iTopy=fCalcPosY(pHeig,parMen);
@@ -255,9 +255,9 @@ diaExitSkin::diaExitSkin(QWidget *parent,QFrame *menu,QString pTitl,int pWidt,in
     int iLefx=pLefx;
     int iTopy=pTopy;
 
-    iPr=QApplication::desktop()->width()-1;
-    iPb=QApplication::desktop()->height()-1;
-    iPm=QApplication::desktop()->height()/2;
+    iPr=qstit::deskGeom().width()-1;
+    iPb=qstit::deskGeom().height()-1;
+    iPm=qstit::deskGeom().height()/2;
 
     if (iLefx==-1) iLefx=fCalcPosX(pWidt);
     if (iTopy==-1) iTopy=fCalcPosY(pHeig,parMen);
@@ -344,9 +344,9 @@ diaConfSkin::diaConfSkin(QWidget *parent,QFrame *menu,QString pTitl,int pWidt,in
     int iLefx=pLefx;
     int iTopy=pTopy;
 
-    iPr=QApplication::desktop()->width()-1;
-    iPb=QApplication::desktop()->height()-1;
-    iPm=QApplication::desktop()->height()/2;
+    iPr=qstit::deskGeom().width()-1;
+    iPb=qstit::deskGeom().height()-1;
+    iPm=qstit::deskGeom().height()/2;
 
     if (iLefx==-1) iLefx=fCalcPosX(pWidt);
     if (iTopy==-1) iTopy=fCalcPosY(pHeig,parMen);
@@ -434,7 +434,7 @@ bool messSkin::fMess(QWidget *parent,QFrame *menu,QString sMess,QString sBut1,QS
 
     QFont fT=QFont(sAppFont,11,QFont::Normal,false);
     QFontMetrics mT=QFontMetrics(fT);
-    lW=mT.width(sW);
+    lW=qstit::textWidt(mT,sW);
     #ifdef Q_OS_WIN32
     lW=lW/1.25;
     #endif
@@ -500,9 +500,9 @@ diaColoSkin::diaColoSkin(QWidget *parent,QFrame *menu,QString pTitl,QString pCol
     int iLefx=-1;
     int iTopy=-1;
 
-    iPr=QApplication::desktop()->width()-1;
-    iPb=QApplication::desktop()->height()-1;
-    iPm=QApplication::desktop()->height()/2;
+    iPr=qstit::deskGeom().width()-1;
+    iPb=qstit::deskGeom().height()-1;
+    iPm=qstit::deskGeom().height()/2;
 
     if (iLefx==-1) iLefx=fCalcPosX(pWidt);
     if (iTopy==-1) iTopy=fCalcPosY(pHeig,parMen);
@@ -615,9 +615,9 @@ diaFontSkin::diaFontSkin(QWidget *parent,QFrame *menu,QString pTitl,QFont pFont)
     int iLefx=-1;
     int iTopy=-1;
 
-    iPr=QApplication::desktop()->width()-1;
-    iPb=QApplication::desktop()->height()-1;
-    iPm=QApplication::desktop()->height()/2;
+    iPr=qstit::deskGeom().width()-1;
+    iPb=qstit::deskGeom().height()-1;
+    iPm=qstit::deskGeom().height()/2;
 
     QString sAppFont=qApp->font().family();
 
@@ -736,9 +736,9 @@ diaFileSkin::diaFileSkin(QWidget *parent,QFrame *menu,QString pTitl,QString pFol
     int iLefx=-1;
     int iTopy=-1;
 
-    iPr=QApplication::desktop()->width()-1;
-    iPb=QApplication::desktop()->height()-1;
-    iPm=QApplication::desktop()->height()/2;
+    iPr=qstit::deskGeom().width()-1;
+    iPb=qstit::deskGeom().height()-1;
+    iPm=qstit::deskGeom().height()/2;
 
     if (iLefx==-1) iLefx=fCalcPosX(pWidt);
     if (iTopy==-1) iTopy=fCalcPosY(pHeig,parMen);
@@ -861,9 +861,9 @@ diaInfoSkin::diaInfoSkin(QWidget *parent,QFrame *menu,QString pTitl,int pWidt,in
     parWin=parent;
     parMen=menu;
 
-    iPr=QApplication::desktop()->width()-1;
-    iPb=QApplication::desktop()->height()-1;
-    iPm=QApplication::desktop()->height()/2;
+    iPr=qstit::deskGeom().width()-1;
+    iPb=qstit::deskGeom().height()-1;
+    iPm=qstit::deskGeom().height()/2;
 
     iW=pWidt;
     iH=pHeig;
@@ -895,13 +895,13 @@ diaInfoSkin::diaInfoSkin(QWidget *parent,QFrame *menu,QString pTitl,int pWidt,in
     fraSizT=new QFrame(this);
     fraSizT->setGeometry(0,0,iW,5);
     fraSizT->raise();
-    fraSizT->setCursor(QPixmap(":/Imag/QSTit_size_vert.png"));
+    fraSizT->setCursor(QCursor(QPixmap(":/Imag/QSTit_size_vert.png")));
     fraSizT->setFrameShape(QFrame::NoFrame);
     fraSizT->setStyleSheet(sStylBord);
     fraSizB=new QFrame(this);
     fraSizB->setGeometry(0,iH-5,iW,5);
     fraSizB->raise();
-    fraSizB->setCursor(QPixmap(":/Imag/QSTit_size_vert.png"));
+    fraSizB->setCursor(QCursor(QPixmap(":/Imag/QSTit_size_vert.png")));
     fraSizB->setFrameShape(QFrame::NoFrame);
     fraSizB->setStyleSheet(sStylBord);
 
@@ -979,9 +979,9 @@ diaHelpSkin::diaHelpSkin(QWidget *parent,QFrame *menu,QString pTitl,int pWidt,in
     parWin=parent;
     parMen=menu;
 
-    iPr=QApplication::desktop()->width()-1;
-    iPb=QApplication::desktop()->height()-1;
-    iPm=QApplication::desktop()->height()/2;
+    iPr=qstit::deskGeom().width()-1;
+    iPb=qstit::deskGeom().height()-1;
+    iPm=qstit::deskGeom().height()/2;
 
     iW=pWidt;
     iH=pHeig;
@@ -1013,13 +1013,13 @@ diaHelpSkin::diaHelpSkin(QWidget *parent,QFrame *menu,QString pTitl,int pWidt,in
     fraSizT=new QFrame(this);
     fraSizT->setGeometry(0,0,iW,5);
     fraSizT->raise();
-    fraSizT->setCursor(QPixmap(":/Imag/QSTit_size_vert.png"));
+    fraSizT->setCursor(QCursor(QPixmap(":/Imag/QSTit_size_vert.png")));
     fraSizT->setFrameShape(QFrame::NoFrame);
     fraSizT->setStyleSheet(sStylBord);
     fraSizB=new QFrame(this);
     fraSizB->setGeometry(0,iH-5,iW,5);
     fraSizB->raise();
-    fraSizB->setCursor(QPixmap(":/Imag/QSTit_size_vert.png"));
+    fraSizB->setCursor(QCursor(QPixmap(":/Imag/QSTit_size_vert.png")));
     fraSizB->setFrameShape(QFrame::NoFrame);
     fraSizB->setStyleSheet(sStylBord);
 
