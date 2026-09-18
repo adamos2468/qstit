@@ -7,7 +7,7 @@
 configure: configure-stamp
 configure-stamp:
 	dh_testdir
-	qmake-qt4 src/qstit.pro
+	qmake6 src/qstit.pro
 	touch configure-stamp
 
 build-arch: build
