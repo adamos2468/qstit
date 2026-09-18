@@ -126,6 +126,20 @@ menuSkin::menuSkin(QWidget *parent,int pWidt,int pHeig,int pLefx,int pTopy) : QF
     this->show();
     this->raise();
 }
+void menuSkin::fWindResi(int pWidt,int pHeig)
+{
+    // The drag limits were taken from the parent size at build time; refresh them
+    // and keep the menu anchored to the bottom of what is really on screen.
+    iPr=pWidt-1;
+    iPb=pHeig-1;
+    iPm=pHeig/2;
+    iY=pHeig-iH-1;
+    if (iX>pWidt-iW) iX=pWidt-iW;
+    if (iX<1) iX=1;
+    if (iY<1) iY=1;
+    this->move(iX,iY);
+    this->raise();
+}
 void menuSkin::mousePressEvent(QMouseEvent *e)
 {
     iCx=e->globalX();

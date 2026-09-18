@@ -446,6 +446,8 @@ class winMain : public QWidget
         void        fWindExitDial();
         void        fWindTask();
     private:
+        void        fWindResi(int,int);                 // adopt the size the window really got
+    private:
         QPushButton*    butConfOkok;
         QPushButton*    butEditCanc;
         QPushButton*    butEditSave;
@@ -706,6 +708,7 @@ class winMain : public QWidget
         QPointer<FaderWidget> faderWidget;
     protected:
         virtual void keyPressEvent(QKeyEvent *qe);
+        virtual void resizeEvent(QResizeEvent *qe);
 };
 
 #endif
