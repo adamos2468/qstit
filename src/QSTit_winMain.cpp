@@ -28,6 +28,13 @@
 
 winMain::winMain()
 {
+    // resizeEvent() can reach these before they are built, so start them empty.
+    winFram=nullptr;
+    winWind=nullptr;
+    fraMenu=nullptr;
+    diaSett=nullptr;
+    diaGrid=nullptr;
+
     g1rst=true;
     gAcce=0;                                            // accelerator in mls
     gAuto=false;
