@@ -3994,40 +3994,46 @@ void winMain::keyPressEvent(QKeyEvent *qe)
 }
 void winMain::fTestCard(bool bCrea)
 {
-    static int iH,iV;
     int i,iS,jS,iM;
 
     if (bCrea)
     {
+        // The number of grid lines follows the screen size, so the labels are kept
+        // in a list: a fixed array used to overflow on screens taller/wider than
+        // 99 steps, silently hiding whatever widget sat behind it in memory.
+        iS=20;                                          // default step, refined below
         if (objWind.heig%10==0) iS=20;
         else if (objWind.heig%8==0) iS=16;
-        iM=iH=1+objWind.heig/iS;
+        iM=1+objWind.heig/iS;
         for (i=0;i<iM;i++)
         {
             jS=i*iS;if (i==iM-1) jS--;
-            labTestHori[i]=new QLabel(winWind);
-            labTestHori[i]->setGeometry(0,jS,objWind.widt,1);
-            if (i!=iM/2) labTestHori[i]->setStyleSheet("background-color:#444444;");
-            else labTestHori[i]->setStyleSheet("background-color:#888888;");
-            labTestHori[i]->hide();
+            QLabel *labLine=new QLabel(winWind);
+            labLine->setGeometry(0,jS,objWind.widt,1);
+            if (i!=iM/2) labLine->setStyleSheet("background-color:#444444;");
+            else labLine->setStyleSheet("background-color:#888888;");
+            labLine->hide();
+            labTestHori.append(labLine);
         }
+        iS=20;
         if (objWind.widt%10==0) iS=20;
         else if (objWind.widt%8==0) iS=16;
-        iM=iV=1+objWind.widt/iS;
+        iM=1+objWind.widt/iS;
         for (i=0;i<iM;i++)
         {
             jS=i*iS;if (i==iM-1) jS--;
-            labTestVert[i]=new QLabel(winWind);
-            labTestVert[i]->setGeometry(jS,0,1,objWind.heig);
-            if (i!=iM/2) labTestVert[i]->setStyleSheet("background-color:#444444;");
-            else labTestVert[i]->setStyleSheet("background-color:#888888;");
-            labTestVert[i]->hide();
+            QLabel *labLine=new QLabel(winWind);
+            labLine->setGeometry(jS,0,1,objWind.heig);
+            if (i!=iM/2) labLine->setStyleSheet("background-color:#444444;");
+            else labLine->setStyleSheet("background-color:#888888;");
+            labLine->hide();
+            labTestVert.append(labLine);
         }
     }
     else
     {
-        for (i=0;i<iH;i++) {labTestHori[i]->setVisible(gTest);}
-        for (i=0;i<iV;i++) {labTestVert[i]->setVisible(gTest);}
+        for (i=0;i<labTestHori.size();i++) {labTestHori[i]->setVisible(gTest);}
+        for (i=0;i<labTestVert.size();i++) {labTestVert[i]->setVisible(gTest);}
     }
 }
 void winMain::fTestTogg()

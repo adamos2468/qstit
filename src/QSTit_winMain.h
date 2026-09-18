@@ -47,6 +47,7 @@
 #include <QEvent>
 #include <QTime>
 #include <QTimer>
+#include <QVector>
 #include <QElapsedTimer>
 
 #include "QSTit_fadShow.h"
@@ -625,8 +626,8 @@ class winMain : public QWidget
         QLabel*         labShedVert;
         QLabel*         labShedWidt;
         QLabel*         labTaskShow;
-        QLabel*         labTestHori[99];
-        QLabel*         labTestVert[99];
+        QVector<QLabel*> labTestHori;                   // test card: one label per grid line,
+        QVector<QLabel*> labTestVert;                   // sized at runtime from the screen
         QLabel*         labTextAliH;
         QLabel*         labTextAliV;
         QLabel*         labTextFont;
