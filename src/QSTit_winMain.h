@@ -28,6 +28,11 @@
 #include <fstream>
 
 #include <QtGui>
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+    // In Qt4 <QtGui> also pulled in the widget classes; since Qt5 they live in QtWidgets.
+    #include <QtWidgets>
+#endif
+#include "QSTit_compat.h"
 #include <QApplication>
 #include <QDir>
 #include <QFile>
@@ -42,6 +47,7 @@
 #include <QEvent>
 #include <QTime>
 #include <QTimer>
+#include <QElapsedTimer>
 
 #include "QSTit_fadShow.h"
 
@@ -693,7 +699,7 @@ class winMain : public QWidget
         QTime           timAuto;
         QTime           timStar;
         QTime           timStop;
-        QTime           timSystPuls;
+        QElapsedTimer   timSystPuls;                    // stopwatch: QTime lost start()/restart() in Qt6
         QTimer*         tmrClok;
         QTimer*         tmrAuto;
     private:
