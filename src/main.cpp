@@ -43,6 +43,6 @@ int main(int argc,char *argv[])
 #endif
 
     winMain wMain;
-    wMain.show();
+    wMain.showFullScreen();   // projection surface: take the whole screen
     return app.exec();
 }
