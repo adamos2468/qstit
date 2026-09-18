@@ -255,14 +255,42 @@ void winMain::fWindBack() {winWind->setStyleSheet("background-color:"+gWindBack+
 void winMain::fWindClear() {winWind->setStyleSheet("background-color:#000000;color:#ffffff;border:none;");}
 void winMain::fWindTask()
 {
-    objWind.heig=qstit::deskGeom().height();
-    if(radTaskShow->isChecked()) {objWind.heig=qstit::deskAvai().height();}
-    this->setFixedSize(objWind.widt,objWind.heig);
+    // Leaving room for the taskbar means leaving full screen: a fullscreen window
+    // is sized by the window manager (and on Wayland a client cannot resize itself
+    // out of it at all), so ask for the right mode and let resizeEvent() do the rest.
+    if (radTaskShow->isChecked())
+    {
+        this->showNormal();
+        this->setGeometry(qstit::deskAvai());
+    }
+    else this->showFullScreen();
+}
+void winMain::fWindResi(int pWidt,int pHeig)
+{
+    // Called from resizeEvent: the window manager has the last word on the window
+    // size, so everything anchored to an edge is laid out from the size we really
+    // got rather than from the size of the screen.
+    if (pWidt<=0 || pHeig<=0) return;
+    if (pWidt==objWind.widt && pHeig==objWind.heig) return;
+
+    objWind.widt=pWidt;
+    objWind.heig=pHeig;
+    objWind.midW=objWind.widt/2;
+    objWind.midH=objWind.heig/2;
+    objWind.basW=objWind.widt-2;
+    objWind.basH=objWind.heig-2;
+
+    if (!winFram) return;                               // still under construction
+    winFram->setGeometry(0,0,objWind.widt,objWind.heig);
     winWind->setGeometry(0,0,objWind.widt,objWind.heig);
-    fraMenu->iY=objWind.heig-fraMenu->iH-1;
-    fraMenu->move(fraMenu->iX,fraMenu->iY);
-    diaSett->fRePosi();
-    if (gGridShow) diaGrid->fRePosi();
+    if (fraMenu) fraMenu->fWindResi(objWind.widt,objWind.heig);
+    if (diaSett) diaSett->fRePosi();
+    if (gGridShow && diaGrid) diaGrid->fRePosi();
+}
+void winMain::resizeEvent(QResizeEvent *qe)
+{
+    QWidget::resizeEvent(qe);
+    fWindResi(this->width(),this->height());
 }
 void winMain::fWindExitDial()
 {

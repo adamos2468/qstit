@@ -61,6 +61,7 @@ class menuSkin : public QFrame
     Q_OBJECT
     public:
         menuSkin(QWidget *,int,int,int,int);
+        void    fWindResi(int,int);                     // re-anchor after the window was resized
         int     iX,iY,iW,iH;
         bool    bLink;
     private:
