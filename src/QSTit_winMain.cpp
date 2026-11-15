@@ -1638,10 +1638,10 @@ void winMain::fGridInitCols()
         cwTot+=cw;
         switch (c)
         {
-            case 3: diaGrid->iWid3=cw;
-            case 4: diaGrid->iWid4=cw;
-            case 5: diaGrid->iWid5=cw;
-            case 6: diaGrid->iWid6=cw;
+            case 3: diaGrid->iWid3=cw;break;
+            case 4: diaGrid->iWid4=cw;break;
+            case 5: diaGrid->iWid5=cw;break;
+            case 6: diaGrid->iWid6=cw;break;
         }
     }
     diaGrid->nColo=objRowsNumb.valu;
@@ -2928,7 +2928,7 @@ int winMain::fFileSize(QString sFile)
     QByteArray aLine;
     QFile oFile;
     oFile.setFileName(sFile);
-    oFile.open(QIODevice::ReadOnly|QIODevice::Text);
+    if (!oFile.open(QIODevice::ReadOnly|QIODevice::Text)) return 0;
     while (!oFile.atEnd()) {aLine=oFile.readLine(0);iSize++;}
     oFile.close();
     return iSize;
@@ -2939,8 +2939,8 @@ void winMain::fFileEncoding(QString sFile)
     char ch='\0';
     QString sT="";
     QFile oFile(sFile);
-    oFile.open(QIODevice::ReadOnly|QIODevice::Text);
     gFileEnco=true;
+    if (!oFile.open(QIODevice::ReadOnly|QIODevice::Text)) return;
     i=j=k=0;
     while (!oFile.atEnd())
     {
@@ -3720,7 +3720,7 @@ QString winMain::fHelpFileRead()
         if (oHelp.open(QIODevice::ReadOnly|QIODevice::Text)) {sFile=oHelp.fileName();oHelp.close();}
     }
     oHelp.setFileName(sFile);
-    oHelp.open(QIODevice::ReadOnly|QIODevice::Text);
+    if (!oHelp.open(QIODevice::ReadOnly|QIODevice::Text)) return QString();
     QByteArray sHelp=oHelp.readAll();
     oHelp.close();
 
@@ -4106,7 +4106,8 @@ void winMain::fConfConf(QString pVari,QString pValu)
     }
     if (pVari=="Lang")
     {
-        if (iV<0 || iV>1) iV=0;gLang=iV;
+        if (iV<0 || iV>1) iV=0;
+        gLang=iV;
         if (gLang==0) radLangEngl->setChecked(true);
         else radLangOthe->setChecked(true);
         return;
@@ -4129,7 +4130,8 @@ void winMain::fConfConf(QString pVari,QString pValu)
     if (pVari=="Menu-W")        {if (!gWork && gConf<=1) fMenuAdapt(0);
                                  else if (gWork && gConf==1 && !gSrtx) fMenuAdapt(1);
                                  else if (gWork && gConf==1 && gSrtx) fMenuAdapt(2);
-                                 else fraMenu->iW=iV;return;}
+                                 else fraMenu->iW=iV;
+                                 return;}
     if (pVari=="Menu-X")        {if (iV<0 || gConf<=1) iV=(objWind.widt-fraMenu->iW)/2;
                                  fraMenu->iX=iV;return;}
     if (pVari=="Menu-Y")        {if (iV<0) iV=objWind.heig-fraMenu->iH;fraMenu->iY=iV;return;}
