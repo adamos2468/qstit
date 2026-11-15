@@ -129,9 +129,10 @@ void winMain::fApplInit()
 
     objRowsHeig.mini=0;
     // The box holds the wrapped title text, so - like the width just above - its
-    // maximum follows the screen instead of being a fixed value. Rows stack on top
-    // of each other, so one row may take up to its share of the screen height.
-    objRowsHeig.maxi=objWind.basH/objRowsNumb.maxi;
+    // maximum follows the screen instead of being a fixed value. A single row may
+    // take the whole height: how tall the rows are, and whether a full stack of
+    // them still fits on screen, is left to the user.
+    objRowsHeig.maxi=objWind.basH;
     if (objRowsHeig.maxi<100) objRowsHeig.maxi=100; // never below the historical limit
     objRowsHeig.val0=objRowsHeig.valu=30;
 
