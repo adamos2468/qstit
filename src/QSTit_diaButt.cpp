@@ -22,6 +22,8 @@
 */
 
 #include "QSTit_diaButt.h"
+#include <QHelpEvent>
+#include <QSize>
 
 butDspi::butDspi(QWidget *wParent,int iX,int iY,double dMin,double dMax,double dStep,double dValu,int iDeci) : QDoubleSpinBox(wParent)
 {

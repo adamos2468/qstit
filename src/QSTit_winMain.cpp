@@ -25,6 +25,36 @@
 #include "QSTit_diaGrid.h"
 #include "QSTit_diaButt.h"
 #include "QSTit_diaSkin.h"
+#include <QBrush>
+#include <QByteArray>
+#include <QChar>
+#include <QCursor>
+#include <QDoubleSpinBox>
+#include <QFileDialog>
+#include <QFileInfo>
+#include <QIcon>
+#include <QIODevice>
+#include <QItemSelectionModel>
+#include <QLinearGradient>
+#include <QLineEdit>
+#include <QMessageBox>
+#include <QPainter>
+#include <QPen>
+#include <QPixmap>
+#include <QProgressBar>
+#include <QRect>
+#include <QScrollBar>
+#include <QSize>
+#include <QSizeF>
+#include <QSpinBox>
+#include <QTabBar>
+#include <QTableWidgetItem>
+#include <QTextCharFormat>
+#include <QTextCursor>
+#include <QTextDocument>
+#include <QTextOption>
+#include <QTextStream>
+#include <QToolTip>
 #include <QtMath>
 
 winMain::winMain()
