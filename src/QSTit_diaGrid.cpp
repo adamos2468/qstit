@@ -198,36 +198,36 @@ void diaGridSkin::fGridSizeBord()
 }
 void diaGridSkin::mousePressEvent(QMouseEvent *e)
 {
-    bSizT=(e->y()>=0 && e->y()<=5)?true:false;
-    bSizL=(e->y()>=0 && e->x()<=5)?true:false;
-    bSizB=(e->y()>=iH-5 && e->y()<=iH)?true:false;
-    bSizR=(e->y()>=0 && e->x()>=iW-5)?true:false;
-    iCx=e->globalX();
-    iCy=e->globalY();
+    bSizT=(qstit::mousPosi(e).y()>=0 && qstit::mousPosi(e).y()<=5)?true:false;
+    bSizL=(qstit::mousPosi(e).y()>=0 && qstit::mousPosi(e).x()<=5)?true:false;
+    bSizB=(qstit::mousPosi(e).y()>=iH-5 && qstit::mousPosi(e).y()<=iH)?true:false;
+    bSizR=(qstit::mousPosi(e).y()>=0 && qstit::mousPosi(e).x()>=iW-5)?true:false;
+    iCx=qstit::mousGlob(e).x();
+    iCy=qstit::mousGlob(e).y();
 }
 void diaGridSkin::mouseMoveEvent(QMouseEvent *e)
 {
-    if (bSizT) {fGridSizeVert(false,iCy-e->globalY());iCx=e->globalX();iCy=e->globalY();}
-    else if (bSizL) {fGridSizeHori(true,e->globalX());iCx=e->globalX();iCy=e->globalY();}
-    else if (bSizB) {fGridSizeVert(true,iCy-e->globalY());iCx=e->globalX();iCy=e->globalY();}
-    else if (bSizR) {fGridSizeHori(false,e->globalX());iCx=e->globalX();iCy=e->globalY();}
+    if (bSizT) {fGridSizeVert(false,iCy-qstit::mousGlob(e).y());iCx=qstit::mousGlob(e).x();iCy=qstit::mousGlob(e).y();}
+    else if (bSizL) {fGridSizeHori(true,qstit::mousGlob(e).x());iCx=qstit::mousGlob(e).x();iCy=qstit::mousGlob(e).y();}
+    else if (bSizB) {fGridSizeVert(true,iCy-qstit::mousGlob(e).y());iCx=qstit::mousGlob(e).x();iCy=qstit::mousGlob(e).y();}
+    else if (bSizR) {fGridSizeHori(false,qstit::mousGlob(e).x());iCx=qstit::mousGlob(e).x();iCy=qstit::mousGlob(e).y();}
     else
     {
-        int jX=iX+e->globalX()-iCx;
+        int jX=iX+qstit::mousGlob(e).x()-iCx;
         if (jX<1) jX=1;
         if (jX>iPr-iW) jX=iPr-iW;
         if (bLink && parMen->iX<1) jX=iX+1;
         if (bLink && parMen->iX>iPr-parMen->iW) jX=iX-1;
         iX=jX;
-        int jY=iY+e->globalY()-iCy;
+        int jY=iY+qstit::mousGlob(e).y()-iCy;
         if (jY<1) jY=1;
         if (bLink && jY<41) jY=41;
         if (jY>iPb-iH) jY=iPb-iH;
         if (bLink && jY>iPb-iH-40) jY=iPb-iH-40;
         iY=jY;
         this->move(iX,iY);
-        iCx=e->globalX();
-        iCy=e->globalY();
+        iCx=qstit::mousGlob(e).x();
+        iCy=qstit::mousGlob(e).y();
         emit sMoved();
     }
 }
