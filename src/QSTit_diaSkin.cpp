@@ -76,22 +76,22 @@ rowSkin::rowSkin(QWidget *parent,int pWidt,int pHeig) : QFrame(parent)
 }
 void rowSkin::mousePressEvent(QMouseEvent *e)
 {
-    iCx=e->globalX();
-    iCy=e->globalY();
+    iCx=qstit::mousGlob(e).x();
+    iCy=qstit::mousGlob(e).y();
 }
 void rowSkin::mouseMoveEvent(QMouseEvent *e)
 {
-    int jX=iX+e->globalX()-iCx;
+    int jX=iX+qstit::mousGlob(e).x()-iCx;
     if (jX<1) jX=1;
     if (jX>iPr-iW) jX=iPr-iW;
-    int jY=iY+e->globalY()-iCy;
+    int jY=iY+qstit::mousGlob(e).y()-iCy;
     if (jY<1) jY=1;
     if (jY>iPb-iH) jY=iPb-iH;
     iX=jX;
     iY=jY;
     this->move(iX,iY);
-    iCx=e->globalX();
-    iCy=e->globalY();
+    iCx=qstit::mousGlob(e).x();
+    iCy=qstit::mousGlob(e).y();
     emit sMoved();
 }
 void rowSkin::keyPressEvent(QKeyEvent *e)
@@ -142,25 +142,25 @@ void menuSkin::fWindResi(int pWidt,int pHeig)
 }
 void menuSkin::mousePressEvent(QMouseEvent *e)
 {
-    iCx=e->globalX();
-    iCy=e->globalY();
+    iCx=qstit::mousGlob(e).x();
+    iCy=qstit::mousGlob(e).y();
     this->raise();
     this->setFocus();
 }
 void menuSkin::mouseMoveEvent(QMouseEvent *e)
 {
     if(bLink) return;
-    int jX=iX+e->globalX()-iCx;
+    int jX=iX+qstit::mousGlob(e).x()-iCx;
     if (jX<1) jX=1;
     if (jX>iPr-iW) jX=iPr-iW;
-    int jY=iY+e->globalY()-iCy;
+    int jY=iY+qstit::mousGlob(e).y()-iCy;
     if (jY<1) jY=1;
     if (jY>iPb-iH) jY=iPb-iH;
     iX=jX;
     iY=jY;
     this->move(iX,iY);
-    iCx=e->globalX();
-    iCy=e->globalY();
+    iCx=qstit::mousGlob(e).x();
+    iCy=qstit::mousGlob(e).y();
     emit sMoved();
 }
 void menuSkin::keyPressEvent(QKeyEvent *e)
@@ -219,8 +219,8 @@ void diaSkin::fRePosi()
 }
 void diaSkin::mousePressEvent(QMouseEvent *e)
 {
-    iCx=e->globalX();
-    iCy=e->globalY();
+    iCx=qstit::mousGlob(e).x();
+    iCy=qstit::mousGlob(e).y();
     this->raise();
     this->setFocus();
 }
@@ -229,15 +229,15 @@ void diaSkin::mouseMoveEvent(QMouseEvent *e)
     static int iM=0;
     if (++iM%2==0)
     {
-        int nFx=this->frameGeometry().x()+e->globalX()-iCx;
+        int nFx=this->frameGeometry().x()+qstit::mousGlob(e).x()-iCx;
         if (nFx<1) nFx=1;
         if (nFx>iPr-this->frameGeometry().width()) nFx=iPr-this->frameGeometry().width();
-        int nFy=this->frameGeometry().y()+e->globalY()-iCy;
+        int nFy=this->frameGeometry().y()+qstit::mousGlob(e).y()-iCy;
         if (nFy<1) nFy=1;
         if (nFy>iPb-this->frameGeometry().height()) nFy=iPb-this->frameGeometry().height();
         this->move(nFx,nFy);
-        iCx=e->globalX();
-        iCy=e->globalY();
+        iCx=qstit::mousGlob(e).x();
+        iCy=qstit::mousGlob(e).y();
         iM=0;
     }
 }
@@ -321,8 +321,8 @@ void diaExitSkin::fRePosi()
 }
 void diaExitSkin::mousePressEvent(QMouseEvent *e)
 {
-    iCx=e->globalX();
-    iCy=e->globalY();
+    iCx=qstit::mousGlob(e).x();
+    iCy=qstit::mousGlob(e).y();
     this->raise();
     this->setFocus();
 }
@@ -331,15 +331,15 @@ void diaExitSkin::mouseMoveEvent(QMouseEvent *e)
     static int iM=0;
     if (++iM%2==0)
     {
-        int nFx=this->frameGeometry().x()+e->globalX()-iCx;
+        int nFx=this->frameGeometry().x()+qstit::mousGlob(e).x()-iCx;
         if (nFx<1) nFx=1;
         if (nFx>iPr-this->frameGeometry().width()) nFx=iPr-this->frameGeometry().width();
-        int nFy=this->frameGeometry().y()+e->globalY()-iCy;
+        int nFy=this->frameGeometry().y()+qstit::mousGlob(e).y()-iCy;
         if (nFy<1) nFy=1;
         if (nFy>iPb-this->frameGeometry().height()) nFy=iPb-this->frameGeometry().height();
         this->move(nFx,nFy);
-        iCx=e->globalX();
-        iCy=e->globalY();
+        iCx=qstit::mousGlob(e).x();
+        iCy=qstit::mousGlob(e).y();
         iM=0;
     }
 }
@@ -395,8 +395,8 @@ void diaConfSkin::fRePosi()
 }
 void diaConfSkin::mousePressEvent(QMouseEvent *e)
 {
-    iCx=e->globalX();
-    iCy=e->globalY();
+    iCx=qstit::mousGlob(e).x();
+    iCy=qstit::mousGlob(e).y();
     this->raise();
     this->setFocus();
 }
@@ -405,15 +405,15 @@ void diaConfSkin::mouseMoveEvent(QMouseEvent *e)
     static int iM=0;
     if (++iM%2==0)
     {
-        int nFx=this->frameGeometry().x()+e->globalX()-iCx;
+        int nFx=this->frameGeometry().x()+qstit::mousGlob(e).x()-iCx;
         if (nFx<1) nFx=1;
         if (nFx>iPr-this->frameGeometry().width()) nFx=iPr-this->frameGeometry().width();
-        int nFy=this->frameGeometry().y()+e->globalY()-iCy;
+        int nFy=this->frameGeometry().y()+qstit::mousGlob(e).y()-iCy;
         if (nFy<1) nFy=1;
         if (nFy>iPb-this->frameGeometry().height()) nFy=iPb-this->frameGeometry().height();
         this->move(nFx,nFy);
-        iCx=e->globalX();
-        iCy=e->globalY();
+        iCx=qstit::mousGlob(e).x();
+        iCy=qstit::mousGlob(e).y();
         iM=0;
     }
 }
@@ -589,8 +589,8 @@ void diaColoSkin::fGridClos()
 }
 void diaColoSkin::mousePressEvent(QMouseEvent *event)
 {
-    iCx=event->globalX();
-    iCy=event->globalY();
+    iCx=qstit::mousGlob(event).x();
+    iCy=qstit::mousGlob(event).y();
     this->raise();
     this->setFocus();
 }
@@ -599,15 +599,15 @@ void diaColoSkin::mouseMoveEvent(QMouseEvent *event)
     static int iM=0;
     if (++iM%2==0)
     {
-        int nFx=this->frameGeometry().x()+event->globalX()-iCx;
+        int nFx=this->frameGeometry().x()+qstit::mousGlob(event).x()-iCx;
         if (nFx<1) nFx=1;
         if (nFx>iPr-this->frameGeometry().width()) nFx=iPr-this->frameGeometry().width();
-        int nFy=this->frameGeometry().y()+event->globalY()-iCy;
+        int nFy=this->frameGeometry().y()+qstit::mousGlob(event).y()-iCy;
         if (nFy<1) nFy=1;
         if (nFy>iPb-this->frameGeometry().height()) nFy=iPb-this->frameGeometry().height();
         this->move(nFx,nFy);
-        iCx=event->globalX();
-        iCy=event->globalY();
+        iCx=qstit::mousGlob(event).x();
+        iCy=qstit::mousGlob(event).y();
         iM=0;
     }
 }
@@ -710,8 +710,8 @@ void diaFontSkin::fGridClos()
 }
 void diaFontSkin::mousePressEvent(QMouseEvent *event)
 {
-    iCx=event->globalX();
-    iCy=event->globalY();
+    iCx=qstit::mousGlob(event).x();
+    iCy=qstit::mousGlob(event).y();
     this->raise();
     this->setFocus();
 }
@@ -720,15 +720,15 @@ void diaFontSkin::mouseMoveEvent(QMouseEvent *event)
     static int iM=0;
     if (++iM%2==0)
     {
-        int nFx=this->frameGeometry().x()+event->globalX()-iCx;
+        int nFx=this->frameGeometry().x()+qstit::mousGlob(event).x()-iCx;
         if (nFx<1) nFx=1;
         if (nFx>iPr-this->frameGeometry().width()) nFx=iPr-this->frameGeometry().width();
-        int nFy=this->frameGeometry().y()+event->globalY()-iCy;
+        int nFy=this->frameGeometry().y()+qstit::mousGlob(event).y()-iCy;
         if (nFy<1) nFy=1;
         if (nFy>iPb-this->frameGeometry().height()) nFy=iPb-this->frameGeometry().height();
         this->move(nFx,nFy);
-        iCx=event->globalX();
-        iCy=event->globalY();
+        iCx=qstit::mousGlob(event).x();
+        iCy=qstit::mousGlob(event).y();
         iM=0;
     }
 }
@@ -840,8 +840,8 @@ void diaFileSkin::fGridClos()
 }
 void diaFileSkin::mousePressEvent(QMouseEvent *event)
 {
-    iCx=event->globalX();
-    iCy=event->globalY();
+    iCx=qstit::mousGlob(event).x();
+    iCy=qstit::mousGlob(event).y();
     this->raise();
     this->setFocus();
 }
@@ -850,15 +850,15 @@ void diaFileSkin::mouseMoveEvent(QMouseEvent *event)
     static int iM=0;
     if (++iM%2==0)
     {
-        int nFx=this->frameGeometry().x()+event->globalX()-iCx;
+        int nFx=this->frameGeometry().x()+qstit::mousGlob(event).x()-iCx;
         if (nFx<1) nFx=1;
         if (nFx>iPr-this->frameGeometry().width()) nFx=iPr-this->frameGeometry().width();
-        int nFy=this->frameGeometry().y()+event->globalY()-iCy;
+        int nFy=this->frameGeometry().y()+qstit::mousGlob(event).y()-iCy;
         if (nFy<1) nFy=1;
         if (nFy>iPb-this->frameGeometry().height()) nFy=iPb-this->frameGeometry().height();
         this->move(nFx,nFy);
-        iCx=event->globalX();
-        iCy=event->globalY();
+        iCx=qstit::mousGlob(event).x();
+        iCy=qstit::mousGlob(event).y();
         iM=0;
     }
 }
@@ -956,28 +956,28 @@ void diaInfoSkin::fGridSizeBord()
 }
 void diaInfoSkin::mousePressEvent(QMouseEvent *e)
 {
-    bSizT=(e->y()>=0 && e->y()<=5)?true:false;
-    bSizB=(e->y()>=iH-5 && e->y()<=iH)?true:false;
-    iCx=e->globalX();
-    iCy=e->globalY();
+    bSizT=(qstit::mousPosi(e).y()>=0 && qstit::mousPosi(e).y()<=5)?true:false;
+    bSizB=(qstit::mousPosi(e).y()>=iH-5 && qstit::mousPosi(e).y()<=iH)?true:false;
+    iCx=qstit::mousGlob(e).x();
+    iCy=qstit::mousGlob(e).y();
 }
 void diaInfoSkin::mouseMoveEvent(QMouseEvent *e)
 {
-    if (bSizT) {fGridSizeVert(false,iCy-e->globalY());iCx=e->globalX();iCy=e->globalY();}
-    else if (bSizB) {fGridSizeVert(true,iCy-e->globalY());iCx=e->globalX();iCy=e->globalY();}
+    if (bSizT) {fGridSizeVert(false,iCy-qstit::mousGlob(e).y());iCx=qstit::mousGlob(e).x();iCy=qstit::mousGlob(e).y();}
+    else if (bSizB) {fGridSizeVert(true,iCy-qstit::mousGlob(e).y());iCx=qstit::mousGlob(e).x();iCy=qstit::mousGlob(e).y();}
     else
     {
-        int nFx=this->frameGeometry().x()+e->globalX()-iCx;
+        int nFx=this->frameGeometry().x()+qstit::mousGlob(e).x()-iCx;
         if (nFx<1) nFx=1;
         if (nFx>iPr-this->frameGeometry().width()) nFx=iPr-this->frameGeometry().width();
-        int nFy=this->frameGeometry().y()+e->globalY()-iCy;
+        int nFy=this->frameGeometry().y()+qstit::mousGlob(e).y()-iCy;
         if (nFy<1) nFy=1;
         if (nFy>iPb-this->frameGeometry().height()) nFy=iPb-this->frameGeometry().height();
         iX=nFx;
         iY=nFy;
         this->move(iX,iY);
-        iCx=e->globalX();
-        iCy=e->globalY();
+        iCx=qstit::mousGlob(e).x();
+        iCy=qstit::mousGlob(e).y();
     }
 }
 void diaInfoSkin::keyPressEvent(QKeyEvent *e)
@@ -1068,28 +1068,28 @@ void diaHelpSkin::fGridSizeBord()
 }
 void diaHelpSkin::mousePressEvent(QMouseEvent *e)
 {
-    bSizT=(e->y()>=0 && e->y()<=5)?true:false;
-    bSizB=(e->y()>=iH-5 && e->y()<=iH)?true:false;
-    iCx=e->globalX();
-    iCy=e->globalY();
+    bSizT=(qstit::mousPosi(e).y()>=0 && qstit::mousPosi(e).y()<=5)?true:false;
+    bSizB=(qstit::mousPosi(e).y()>=iH-5 && qstit::mousPosi(e).y()<=iH)?true:false;
+    iCx=qstit::mousGlob(e).x();
+    iCy=qstit::mousGlob(e).y();
 }
 void diaHelpSkin::mouseMoveEvent(QMouseEvent *e)
 {
-    if (bSizT) {fGridSizeVert(false,iCy-e->globalY());iCx=e->globalX();iCy=e->globalY();}
-    else if (bSizB) {fGridSizeVert(true,iCy-e->globalY());iCx=e->globalX();iCy=e->globalY();}
+    if (bSizT) {fGridSizeVert(false,iCy-qstit::mousGlob(e).y());iCx=qstit::mousGlob(e).x();iCy=qstit::mousGlob(e).y();}
+    else if (bSizB) {fGridSizeVert(true,iCy-qstit::mousGlob(e).y());iCx=qstit::mousGlob(e).x();iCy=qstit::mousGlob(e).y();}
     else
     {
-        int nFx=this->frameGeometry().x()+e->globalX()-iCx;
+        int nFx=this->frameGeometry().x()+qstit::mousGlob(e).x()-iCx;
         if (nFx<1) nFx=1;
         if (nFx>iPr-this->frameGeometry().width()) nFx=iPr-this->frameGeometry().width();
-        int nFy=this->frameGeometry().y()+e->globalY()-iCy;
+        int nFy=this->frameGeometry().y()+qstit::mousGlob(e).y()-iCy;
         if (nFy<1) nFy=1;
         if (nFy>iPb-this->frameGeometry().height()) nFy=iPb-this->frameGeometry().height();
         iX=nFx;
         iY=nFy;
         this->move(iX,iY);
-        iCx=e->globalX();
-        iCy=e->globalY();
+        iCx=qstit::mousGlob(e).x();
+        iCy=qstit::mousGlob(e).y();
     }
 }
 void diaHelpSkin::keyPressEvent(QKeyEvent *e)

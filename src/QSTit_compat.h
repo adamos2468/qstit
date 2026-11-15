@@ -16,6 +16,8 @@
 #include <QTextStream>
 #include <QFont>
 #include <QFontMetrics>
+#include <QMouseEvent>
+#include <QPoint>
 #include <QString>
 
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
@@ -118,6 +120,26 @@ namespace qstit
     #else
         const QScreen *scr=QGuiApplication::primaryScreen();
         return scr ? scr->availableGeometry() : QRect();
+    #endif
+    }
+
+    // QMouseEvent::x()/y()/pos() and globalX()/globalY()/globalPos() are deprecated
+    // in Qt6 in favour of the floating-point position() and globalPosition().
+    // toPoint() rounds the same way the deprecated accessors do.
+    inline QPoint mousPosi(const QMouseEvent *e)
+    {
+    #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        return e->pos();
+    #else
+        return e->position().toPoint();
+    #endif
+    }
+    inline QPoint mousGlob(const QMouseEvent *e)
+    {
+    #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        return e->globalPos();
+    #else
+        return e->globalPosition().toPoint();
     #endif
     }
 }
