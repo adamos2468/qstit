@@ -294,6 +294,10 @@ class winMain : public QWidget
         void        fRowsVertCent();
         void        fRowsVertTopy();
         void        fRowsTextDraw(int);
+        QString     fRowsTextFont(const QFont&);
+        QFontMetrics fRowsTextMetr(const QFont&);
+        int         fRowsTextWidt(const QFont&,const QString&);
+        int         fRowsOutlMaxi();
         void        fRowsTextForm();
         void        fRowsWidtCalc();
         void        fSettAdapt();

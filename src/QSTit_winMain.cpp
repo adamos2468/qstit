@@ -25,6 +25,7 @@
 #include "QSTit_diaGrid.h"
 #include "QSTit_diaButt.h"
 #include "QSTit_diaSkin.h"
+#include <QtMath>
 
 winMain::winMain()
 {
@@ -936,11 +937,7 @@ void winMain::fRowsTextDraw(int iR)
     }
     QString sStyl=QString("<body><style>body{border:none;background-color:transparent;}p{border:none;");
     sStyl+=QString("color:%1;").arg(objRowx->colF.name());
-    sStyl+=QString("font-family:%1;").arg(objRowx->font.family());
-    sStyl+=QString("font-size:%1px;").arg(objRowx->font.pointSize());
-    if (objRowx->font.bold()) sStyl+=QString("font-weight:bold;");
-    if (objRowx->font.italic()) sStyl+=QString("font-style:italic;");
-    if (objRowx->font.underline()) sStyl+=QString("text-decoration:underline;");
+    sStyl+=fRowsTextFont(objRowx->font);
     sStyl+=QString("}</style>");
 
     if (objRowx->hori<0) sStyl+=QString("<p align=left>");
@@ -998,6 +995,38 @@ void winMain::fRowsTextDraw(int iR)
     texRowx->setPixmap(pixRows);
 
     painter.end();
+}
+// The lines are drawn as HTML in which the font's point size is used as a pixel
+// size. Everything that sizes the line boxes must measure the text that same way,
+// through fRowsTextMetr() or fRowsTextWidt(), or the boxes won't fit the text.
+QString winMain::fRowsTextFont(const QFont &pFont)
+{
+    QString sStyl=QString("font-family:%1;").arg(pFont.family());
+    sStyl+=QString("font-size:%1px;").arg(pFont.pointSize());
+    if (pFont.bold()) sStyl+=QString("font-weight:bold;");
+    if (pFont.italic()) sStyl+=QString("font-style:italic;");
+    if (pFont.underline()) sStyl+=QString("text-decoration:underline;");
+    return sStyl;
+}
+QFontMetrics winMain::fRowsTextMetr(const QFont &pFont)
+{
+    QFont fDraw=pFont;
+    fDraw.setPixelSize(qMax(1,pFont.pointSize()));
+    return QFontMetrics(fDraw);
+}
+int winMain::fRowsTextWidt(const QFont &pFont,const QString &pText)
+{
+    // Lay the text out like fRowsTextDraw() does, tags included, without wrapping.
+    QTextDocument doc;
+    doc.setDocumentMargin(0);
+    doc.setHtml("<body><style>p{"+fRowsTextFont(pFont)+"}</style><p>"+pText+"</p>");
+    return qCeil(doc.idealWidth());
+}
+int winMain::fRowsOutlMaxi()
+{
+    // The outline is stroked on the glyph edges, so half the pen falls outside them
+    // on each side: the box needs the full pen width on top of the text.
+    return qMax(qMax(qMax(objRow0.outl,objRow1.outl),qMax(objRow2.outl,objRow3.outl)),objRow4.outl);
 }
 void winMain::fRowsOutl() {gShed=0;fRowsOutlDial();}
 void winMain::fRowsOut1() {gShed=1;fRowsOutlDial();}
@@ -1330,7 +1359,7 @@ void winMain::fRowsFontGet(QFont pFont)
 void winMain::fRowsFontChan() {fRowsHeigCalc();fRowsWidtCalc();fRowsAdapt();}
 void winMain::fRowsHeigCalc()
 {
-    int iHone=(gRowsFont.pointSize()*2)/1.3;
+    int iHone=fRowsTextMetr(gRowsFont).lineSpacing()+fRowsOutlMaxi();
     if (iHone>objRowsHeig.maxi) iHone=objRowsHeig.maxi;
     if (gShed==0) objRow0.heig=iHone;
     if (gShed==1 || (gShed==0 && radShedSho1->isChecked())) objRow1.heig=iHone;
@@ -1350,17 +1379,16 @@ void winMain::fRowsWidtCalc()
     if (fT.pointSize()<objRow3.font.pointSize()) fT=objRow3.font;
     if (fT.pointSize()<objRow4.font.pointSize()) fT=objRow4.font;
 
-    QFontMetrics mRows=QFontMetrics(fT);
+    // The widest lines were picked while loading, from their plain text. Measure
+    // them again as they are drawn, with their tags, and fit the widest of them.
+    iW=0;
     for (iM=0; iM<9; iM++)
     {
-        sT=fGridTextClean(griText->item(gFileMaxiRows[iM],gFileMaxiColo[iM])->text());
-        #ifdef Q_OS_MAC
-        gFileMaxiLeng[iM]=qstit::textWidt(mRows,sT)*1.05;
-        #else
-        gFileMaxiLeng[iM]=qstit::textWidt(mRows,sT)/1.1;
-        #endif
+        sT=griText->item(gFileMaxiRows[iM],gFileMaxiColo[iM])->text().trimmed();
+        gFileMaxiLeng[iM]=fRowsTextWidt(fT,sT);
+        if (gFileMaxiLeng[iM]>iW) iW=gFileMaxiLeng[iM];
     }
-    iW=gFileMaxiLeng[0];
+    iW+=fRowsOutlMaxi();
     if (iW%2!=0) iW+=1;
     if (iW<objRowsWidt.mini) {iW=objRowsWidt.mini;}
     if (iW>objWind.basW && !gWarn) {iW=objWind.basW;messSkin cM;cM.fMess(this,fraMenu,fL("msgFontWideMess"),fL("butOkOk"),"");}
@@ -1880,7 +1908,7 @@ void winMain::fGridFontSize()
         int iCmax=3+objRowsNumb.valu;
         QTableWidgetItem *wi;
         QFontMetrics mGrid=QFontMetrics(gGridFont);
-        QFontMetrics mRows=QFontMetrics(gRowsFont);
+        QFontMetrics mRows=fRowsTextMetr(gRowsFont);
 
         fFileTextMaxi(-1,0,0,0,0,0);
         for (iR=0; iR<=gRowsMaxi; iR++)
@@ -2835,7 +2863,7 @@ void winMain::fFileRead()
     fFileTextMaxi(-1,0,0,0,0,0);
 
     QFontMetrics mGrid=QFontMetrics(gGridFont);
-    QFontMetrics mRows=QFontMetrics(gRowsFont);
+    QFontMetrics mRows=fRowsTextMetr(gRowsFont);
 
     QTextStream oStrm(&oFile);
     if (gFileEnco) qstit::strmEncoLati(oStrm);
@@ -2971,12 +2999,6 @@ bool winMain::fFileTextMaxi(int iGrid,int iLeng,int iChar,int iRows,int iLine,in
     }
     else
     {
-        #ifdef Q_OS_MAC
-        iLeng*=1.05;
-        #else
-        iLeng/=1.1;
-        #endif
-
         if (iLeng>objWind.basW)
         {
             gFileErro+=QString("|%1 - Line is too wide").arg(iLine);
@@ -3191,7 +3213,7 @@ void winMain::fFileReadSrtx()
     fFileTextMaxi(-1,0,0,0,0,0);
 
     QFontMetrics mGrid=QFontMetrics(gGridFont);
-    QFontMetrics mRows=QFontMetrics(gRowsFont);
+    QFontMetrics mRows=fRowsTextMetr(gRowsFont);
 
     QTextStream oStrm(&oFile);
     if (gFileEnco) qstit::strmEncoLati(oStrm);
