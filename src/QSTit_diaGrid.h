@@ -24,17 +24,19 @@
 #ifndef H_WINGRID
 #define H_WINGRID
 
-#include <QtGui>
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-    // In Qt4 <QtGui> also pulled in the widget classes; since Qt5 they live in QtWidgets.
-    #include <QtWidgets>
-#endif
 #include "QSTit_compat.h"
-#include <QTableWidget>
-#include <QMouseEvent>
-#include <QKeyEvent>
-#include <QEvent>
 #include <QDialog>
+#include <QEvent>
+#include <QFrame>
+#include <QKeyEvent>
+#include <QLabel>
+#include <QLineEdit>
+#include <QMouseEvent>
+#include <QMoveEvent>
+#include <QString>
+#include <QStringList>
+#include <QTableWidget>
+#include <QWidget>
 
 class menuSkin;
 class butToolG;

@@ -27,28 +27,39 @@
 #include <iostream>
 #include <fstream>
 
-#include <QtGui>
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-    // In Qt4 <QtGui> also pulled in the widget classes; since Qt5 they live in QtWidgets.
-    #include <QtWidgets>
-#endif
 #include "QSTit_compat.h"
-#include <QApplication>
-#include <QDir>
-#include <QFile>
-#include <QString>
-#include <QTableWidget>
-#include <QHeaderView>
 #include <QAbstractItemView>
-#include <QModelIndex>
-#include <QVBoxLayout>
-#include <QPushButton>
-#include <QKeyEvent>
+#include <QApplication>
+#include <QCheckBox>
+#include <QColor>
+#include <QDialog>
+#include <QDir>
+#include <QElapsedTimer>
 #include <QEvent>
+#include <QFile>
+#include <QFont>
+#include <QFontMetrics>
+#include <QFrame>
+#include <QHeaderView>
+#include <QKeyEvent>
+#include <QLabel>
+#include <QMainWindow>
+#include <QModelIndex>
+#include <QPointer>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QResizeEvent>
+#include <QString>
+#include <QStringList>
+#include <QTabWidget>
+#include <QTableWidget>
+#include <QTextEdit>
 #include <QTime>
 #include <QTimer>
+#include <QToolButton>
+#include <QVBoxLayout>
 #include <QVector>
-#include <QElapsedTimer>
+#include <QWidget>
 
 #include "QSTit_fadShow.h"
 

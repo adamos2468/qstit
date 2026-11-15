@@ -21,12 +21,11 @@
    ════════════════════════════════════════════════════════════════════════════════════
 */
 
-#include <QtGui>
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-    // In Qt4 <QtGui> also pulled in the widget classes; since Qt5 they live in QtWidgets.
-    #include <QtWidgets>
-#endif
 #include "QSTit_fadShow.h"
+#include <QColor>
+#include <QPaintEvent>
+#include <QPainter>
+#include <QTimer>
 
 FaderWidget::FaderWidget(QWidget *parent) : QWidget(parent)
 {

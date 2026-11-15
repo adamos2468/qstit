@@ -22,6 +22,24 @@
 */
 
 #include "QSTit_diaSkin.h"
+#include <QAbstractItemView>
+#include <QAbstractScrollArea>
+#include <QComboBox>
+#include <QCursor>
+#include <QEvent>
+#include <QFocusFrame>
+#include <QFontMetrics>
+#include <QGroupBox>
+#include <QHeaderView>
+#include <QLineEdit>
+#include <QList>
+#include <QPixmap>
+#include <QSize>
+#include <QSpinBox>
+#include <QStringList>
+#include <QTableWidget>
+#include <QTextEdit>
+#include <QToolButton>
 
 int fCalcPosX(int iWidt)
 {

@@ -24,14 +24,21 @@
 #ifndef H_WINSKIN
 #define H_WINSKIN
 
-#include <QApplication>
-#include <QtGui>
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-    // In Qt4 <QtGui> also pulled in the widget classes; since Qt5 they live in QtWidgets.
-    #include <QtWidgets>
-#endif
 #include "QSTit_compat.h"
+#include <QApplication>
+#include <QColor>
+#include <QColorDialog>
+#include <QDialog>
+#include <QFileDialog>
+#include <QFont>
+#include <QFontDialog>
 #include <QFrame>
+#include <QKeyEvent>
+#include <QLabel>
+#include <QMouseEvent>
+#include <QPushButton>
+#include <QString>
+#include <QWidget>
 
 int fCalcPosX(int);
 int fCalcPosY(int,QFrame*);

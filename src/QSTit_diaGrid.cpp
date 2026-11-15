@@ -24,6 +24,13 @@
 #include "QSTit_diaGrid.h"
 #include "QSTit_diaSkin.h"
 #include "QSTit_diaButt.h"
+#include <QAbstractItemView>
+#include <QCursor>
+#include <QIcon>
+#include <QItemSelectionModel>
+#include <QList>
+#include <QSize>
+#include <QTableWidgetItem>
 
 diaGridSkin::diaGridSkin(QWidget *parent,menuSkin *menu,QString pTitl,int pWidt,int pHeig) : QFrame(parent)
 {
