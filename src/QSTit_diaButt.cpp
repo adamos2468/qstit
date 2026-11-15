@@ -113,6 +113,8 @@ void butToolC::keyPressEvent(QKeyEvent *e)
             {
                 QApplication::sendEvent(this,new QKeyEvent(QEvent::KeyPress,Qt::Key_Up,Qt::NoModifier,"",false,1));break;
             }
+            QToolButton::keyPressEvent(e);              // any other modifier: as for any other key
+            break;
         default: QToolButton::keyPressEvent(e);
     }
 }
@@ -156,6 +158,8 @@ void butToolX::keyPressEvent(QKeyEvent *e)
             {
                 QApplication::sendEvent(this,new QKeyEvent(QEvent::KeyPress,Qt::Key_Up,Qt::NoModifier,"",false,1));break;
             }
+            QToolButton::keyPressEvent(e);              // any other modifier: as for any other key
+            break;
         default: QToolButton::keyPressEvent(e);
     }
 }
