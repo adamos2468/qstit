@@ -1,3 +1,10 @@
+qstit (3.0.1-1) stable; urgency=medium
+
+  * Fix the crash at start-up in optimised builds, which kept Qstit from
+    launching from the desktop
+
+ -- Adamos Ttofari <adamos2468@gmail.com>  Sun, 22 Nov 2026 11:46:23 +0100
+
 qstit (3.0-1) stable; urgency=low
 
   * Port from Qt4 to Qt5 and Qt6; the Debian package now builds against Qt6

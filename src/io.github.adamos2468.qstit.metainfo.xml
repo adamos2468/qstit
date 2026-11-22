@@ -40,6 +40,11 @@
   <content_rating type="oars-1.1"/>
 
   <releases>
+    <release version="3.0.1" date="2026-11-22">
+      <description>
+        <p>Fixes a crash at start-up that kept Qstit from launching.</p>
+      </description>
+    </release>
     <release version="3.0" date="2026-11-22">
       <description>
         <p>Port to Qt6, full screen projection, and fixes:</p>
