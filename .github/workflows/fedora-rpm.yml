@@ -50,6 +50,15 @@ jobs:
           git archive --prefix="qstit-$VERSION/" -o "$TOP/SOURCES/qstit-$VERSION.tar.gz" HEAD
           rpmbuild -ba --define "_topdir $TOP" qstit.spec
 
+      # Installing checks that the package's dependencies resolve; starting it
+      # catches a crash, an error message or a memory bug at start-up, which
+      # the build and the compiler cannot see. The debuginfo packages give the
+      # valgrind reports their source lines.
+      - name: Install the RPM and start Qstit
+        run: |
+          dnf -y install gdb valgrind rpmbuild/RPMS/x86_64/*.rpm
+          .github/smoke-test.sh /usr/bin/qstit
+
       - uses: actions/upload-artifact@v4
         with:
           name: qstit-fedora-${{ matrix.fedora }}
