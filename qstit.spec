@@ -1,6 +1,6 @@
 Name:           qstit
-Version:        3.0
-Release:        2%{?dist}
+Version:        3.0.1
+Release:        1%{?dist}
 Summary:        Project and manipulate extra subtitles live
 License:        GPL-3.0-or-later
 URL:            https://github.com/adamos2468/qstit
@@ -45,6 +45,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 
 %changelog
+* Sun Nov 22 2026 Adamos Ttofari <adamos2468@gmail.com> - 3.0.1-1
+- Fix the crash at start-up, which kept Qstit from launching
+
 * Sun Nov 22 2026 Adamos Ttofari <adamos2468@gmail.com> - 3.0-2
 - Add AppStream metadata, so that GNOME Software shows the name and icon
 
