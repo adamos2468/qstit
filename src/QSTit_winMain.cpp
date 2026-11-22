@@ -1732,7 +1732,15 @@ void winMain::fGridRows(int pR)
     if (gGridCols>3) objRow4.text=griText->item(pR,6)->text();
     fRowsTextForm();
 }
-void winMain::fGridChan(int iR,int iC,int,int) {griText->setCurrentCell(iR,iC);fGridRows(iR);}
+void winMain::fGridChan(int iR,int iC,int,int)
+{
+    griText->setCurrentCell(iR,iC);
+    fGridRows(iR);
+    // fButtPrev/fButtNext set gRows before moving, so a different row here
+    // means a jump (mouse click, go to line, find, info): the line is now
+    // on screen, so the next arrow key must start from it
+    if (gManu && iR!=gRows) {gRows=iR;gShow=false;}
+}
 void winMain::fGridClic(int iR,int iC)
 {
     if (iC==0) {fGridMarkRows(iR);return;}
