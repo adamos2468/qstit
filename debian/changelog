@@ -1,3 +1,15 @@
+qstit (3.0-1) stable; urgency=low
+
+  * Port from Qt4 to Qt5 and Qt6; the Debian package now builds against Qt6
+  * Show the projection window full screen and lay out from the window size
+  * Let one line take the full screen height and measure the line boxes the
+    way the text is drawn
+  * Fix an out-of-bounds write when building the test card
+  * Fix the arrow keys bringing back the previous line after jumping to
+    another line with the mouse, "go to line", find or the info window
+
+ -- Adamos Ttofari <adamos2468@gmail.com>  Sun, 22 Nov 2026 10:48:16 +0100
+
 qstit (2.9.6-1) stable; urgency=low
 
   * Fixes bug in the previous version when resuming the timer.
