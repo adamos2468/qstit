@@ -2,6 +2,8 @@ qstit (3.0.1-1) stable; urgency=medium
 
   * Fix the crash at start-up in optimised builds, which kept Qstit from
     launching from the desktop
+  * Start the text rotation at 0 and the jump step at 0.2 s, instead of
+    whatever was left in memory
 
  -- Adamos Ttofari <adamos2468@gmail.com>  Sun, 22 Nov 2026 11:46:23 +0100
 

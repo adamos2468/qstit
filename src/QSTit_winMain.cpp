@@ -81,6 +81,7 @@ winMain::winMain()
     gManu=false;
     gPuls=100;                                          // basic timeout interval in mls (100/1000=0.1 sec)
     gJump=0;                                            // jump step
+    gJumpBase=0.2;                                      // jump step in seconds; same default as fSettBase
     gSett=false;
     gShedStat=false;
     gSrtx=false;                                        // true=srt,false=txt
@@ -176,6 +177,7 @@ void winMain::fApplInit()
     objRowsRota.dmax=5.0;
     objRowsRota.dstp=0.1;
     objRowsRota.dbas=objRowsRota.dval=0;
+    objRowsRota.val0=objRowsRota.valu=0;                // the default the rotation starts from and is reset to
 
     objRowsOutl.mini=0;
     objRowsOutl.maxi=30;

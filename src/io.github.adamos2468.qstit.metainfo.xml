@@ -43,6 +43,9 @@
     <release version="3.0.1" date="2026-11-22">
       <description>
         <p>Fixes a crash at start-up that kept Qstit from launching.</p>
+        <ul>
+          <li>The text rotation now always starts at 0 and the jump step at 0.2 seconds</li>
+        </ul>
       </description>
     </release>
     <release version="3.0" date="2026-11-22">

@@ -47,6 +47,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 %changelog
 * Sun Nov 22 2026 Adamos Ttofari <adamos2468@gmail.com> - 3.0.1-1
 - Fix the crash at start-up, which kept Qstit from launching
+- Start the text rotation at 0 and the jump step at 0.2 s, instead of
+  whatever was left in memory
 
 * Sun Nov 22 2026 Adamos Ttofari <adamos2468@gmail.com> - 3.0-2
 - Add AppStream metadata, so that GNOME Software shows the name and icon
