@@ -36,12 +36,16 @@ unix {
     DATADIR =$${PREFIX}/share
     SHAREDIR = $${DATADIR}/$${TARGET}
 
-    INSTALLS += target desktop icon512 iconscale
+    INSTALLS += target desktop metainfo icon512 iconscale
 
     target.path = $${BINDIR}
-    
+
     desktop.path = $${DATADIR}/applications
     desktop.files += $${TARGET}.desktop
+
+    # AppStream data: lets software centers show the name, description and icon
+    metainfo.path = $${DATADIR}/metainfo
+    metainfo.files += io.github.adamos2468.qstit.metainfo.xml
 
     icon512.path = $${DATADIR}/icons/hicolor/512x512/apps
     icon512.files += ./Imag/$${TARGET}.png

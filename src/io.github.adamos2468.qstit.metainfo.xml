@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.adamos2468.qstit</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <name>Qstit</name>
+  <summary>Project and manipulate extra subtitles live</summary>
+  <description>
+    <p>
+      Qstit is a surtitling program: it projects subtitles line by line on a
+      second screen during a screening or a performance, so that they can be
+      added to a film or a play that has none in the language of the audience.
+    </p>
+    <ul>
+      <li>Show the lines by hand, one key press at a time</li>
+      <li>Play them automatically, timed from an SRT file</li>
+      <li>Correct a line on the fly, and jump to any line or search the text</li>
+      <li>Choose the font, colours, outline and position of the text</li>
+    </ul>
+  </description>
+
+  <developer id="org.nova-cinema">
+    <name>Nova Cinema, Brussels</name>
+  </developer>
+
+  <url type="homepage">https://github.com/adamos2468/qstit</url>
+  <url type="bugtracker">https://github.com/adamos2468/qstit/issues</url>
+
+  <launchable type="desktop-id">qstit.desktop</launchable>
+  <!-- Once installed, the icon comes from qstit.desktop; a software center
+       showing a package that is not installed yet uses this one -->
+  <icon type="remote" width="512" height="512">https://raw.githubusercontent.com/adamos2468/qstit/master/src/Imag/qstit.png</icon>
+
+  <categories>
+    <category>AudioVideo</category>
+    <category>Player</category>
+  </categories>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="3.0" date="2026-11-22">
+      <description>
+        <p>Port to Qt6, full screen projection, and fixes:</p>
+        <ul>
+          <li>The arrow keys no longer bring back the previous line after jumping to another line</li>
+          <li>One line can take the full screen height</li>
+          <li>Fixed a crash risk when building the test card</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+</component>

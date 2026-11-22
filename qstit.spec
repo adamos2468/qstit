@@ -1,6 +1,6 @@
 Name:           qstit
 Version:        3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Project and manipulate extra subtitles live
 License:        GPL-3.0-or-later
 URL:            https://github.com/adamos2468/qstit
@@ -10,6 +10,7 @@ BuildRequires:  gcc-c++
 BuildRequires:  make
 BuildRequires:  qt6-qtbase-devel
 BuildRequires:  desktop-file-utils
+BuildRequires:  libappstream-glib
 
 %description
 Qstit is a surtitling program: it projects subtitles line by line on a
@@ -32,15 +33,20 @@ cd src
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.metainfo.xml
 
 %files
 %license COPYING
 %doc README.md
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
+%{_metainfodir}/io.github.adamos2468.qstit.metainfo.xml
 %{_datadir}/icons/hicolor/512x512/apps/%{name}.png
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 
 %changelog
+* Sun Nov 22 2026 Adamos Ttofari <adamos2468@gmail.com> - 3.0-2
+- Add AppStream metadata, so that GNOME Software shows the name and icon
+
 * Sun Nov 22 2026 Adamos Ttofari <adamos2468@gmail.com> - 3.0-1
 - First Fedora package, built against Qt6
