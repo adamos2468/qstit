@@ -74,6 +74,7 @@ winMain::winMain()
     gHome = QDir().homePath()+"/.qstit";
     if (!QDir(gHome).exists()) QDir().mkdir(gHome);
     gHome+="/";
+    gLang=0;                                            // 0=built-in English, 1=QSTit_Lang.txt; read just below, before the configuration
     gFile="";
     gGridNext=0;
     gLogo=false;
