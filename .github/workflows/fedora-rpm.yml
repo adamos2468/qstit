@@ -1,8 +1,13 @@
 name: Fedora RPM
 
 # Builds the RPM on every push and pull request, so a broken build shows up
-# straight away. Pushing a tag such as v3.0 also publishes the packages on the
-# GitHub release page.
+# straight away.
+#
+# A push to master also publishes a GitHub release when qstit.spec carries a
+# Version-Release that has no tag yet: Release 1 is tagged v<Version> (v3.1),
+# a later Release v<Version>-<Release> (v3.1-2). So to release, bump Version
+# or Release in the spec and merge; any other merge only builds. Pushing a v*
+# tag by hand still publishes that tag too.
 on:
   push:
     branches: [master]
@@ -55,17 +60,43 @@ jobs:
           if-no-files-found: error
 
   release:
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))
     needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+
+      - name: Decide the release tag
+        id: tag
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            echo "name=$GITHUB_REF_NAME" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          VERSION=$(awk '$1 == "Version:" {print $2; exit}' qstit.spec)
+          RELEASE=$(awk '$1 == "Release:" {print $2; exit}' qstit.spec | sed 's/%.*//')
+          if [ "$RELEASE" = 1 ]; then TAG="v$VERSION"; else TAG="v$VERSION-$RELEASE"; fi
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" > /dev/null; then
+            echo "::notice::$TAG is already released. Bump Version or Release in qstit.spec to publish a new release."
+          else
+            echo "Publishing $TAG"
+            echo "name=$TAG" >> "$GITHUB_OUTPUT"
+          fi
+
+      - if: steps.tag.outputs.name != ''
+        uses: actions/download-artifact@v4
         with:
           path: rpms
           merge-multiple: true
 
-      - uses: softprops/action-gh-release@v2
+      # Creates the tag on this commit when it does not exist yet. A tag made
+      # with the workflow's own token does not start another run, so the
+      # release is not published twice.
+      - if: steps.tag.outputs.name != ''
+        uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.tag.outputs.name }}
+          target_commitish: ${{ github.sha }}
           files: rpms/**/*.rpm
