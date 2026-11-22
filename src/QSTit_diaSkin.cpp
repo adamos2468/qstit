@@ -49,6 +49,8 @@ int fCalcPosX(int iWidt)
 int fCalcPosY(int iHeig,QFrame *parMen)
 {
     int iPm=qstit::deskGeom().height()/2;
+    // a message shown during start-up, before the menu exists: centre it
+    if (!parMen) return iPm-(iHeig/2);
     if(parMen->frameGeometry().y()>iPm) {return parMen->frameGeometry().y()-iHeig;}
     else {return parMen->frameGeometry().bottom()+1;}
 }
